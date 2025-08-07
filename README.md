@@ -34,15 +34,15 @@ README.md # Este arquivo
 
 ## ⚙️ Funcionalidades
 
-✔️ Login e logout com controle de sessão PHP
-✔️ Painel de administração para cadastro de:
-  - Usuários (Admin, Coordenador, Operador)
-  - Frentes de trabalho
-  - Equipamentos
-  - Implementos
-✔️ Registro de produção diária  
-✔️ Controle de permissões por nível de usuário  
-✔️ Estrutura tipo MVC (sem framework)
+✔️ Login e logout com sessão PHP 
+✔️ Painel de administração para cadastro de: 
+  - Usuários (Admin, Coordenador, Operador) 
+  - Frentes de trabalho 
+  - Equipamentos 
+  - Implementos 
+✔️ Apontamento de produção diário 
+✔️ Controle de permissões por tipo de usuário 
+✔️ Organização em MVC simples com PHP puro 
 
 ---
 
