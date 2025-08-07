@@ -500,6 +500,7 @@ require 'includes/header.php';
                 padding: 0.5rem;
             }
         }
+        
     </style>
 </head>
 <body>

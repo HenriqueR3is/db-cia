@@ -128,6 +128,7 @@ body {
     overflow-y: auto;
     transition: transform 0.3s ease;
     z-index: 900;
+    text-decoration: none;
 }
 
 .sidebar-nav {
@@ -135,9 +136,11 @@ body {
     display: flex;
     flex-direction: column;
     padding: 1rem 0;
+    text-decoration: none;
 }
 
 .sidebar-nav a {
+    text-decoration: none;
     display: flex;
     align-items: center;
     padding: 0.8rem 1rem;
@@ -150,6 +153,7 @@ body {
 .sidebar-nav a.active {
     background-color: var(--primary-color);
     color: white;
+    text-decoration: none;
 }
 
 .sidebar-nav a i {
@@ -494,6 +498,7 @@ table th {
     margin: 0 0.5rem;
     font-weight: 500;
     font-size: 0.95rem;
+text-decoration: none;
 }
 
 .sidebar-nav a:hover {
@@ -508,6 +513,7 @@ table th {
     color: var(--card-bg);
     font-weight: 600;
     box-shadow: 0 4px 12px rgba(46, 125, 50, 0.3);
+    text-decoration: none;
 }
 
 .sidebar-nav a i {
@@ -515,6 +521,7 @@ table th {
     font-size: 1.2rem;
     width: 24px;
     text-align: center;
+    text-decoration: none;
 }
 
 /* Animação para a seleção do menu */
@@ -529,6 +536,7 @@ table th {
     transform: scaleY(0);
     transition: transform var(--transition-speed);
     border-radius: 0 4px 4px 0;
+    text-decoration: none;
 }
 
 .sidebar-nav a.active::before,
