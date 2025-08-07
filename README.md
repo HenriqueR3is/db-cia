@@ -5,8 +5,8 @@
 [![MySQL](https://img.shields.io/badge/MySQL-5.7+-blue?logo=mysql)](https://www.mysql.com/)
 [![License](https://img.shields.io/badge/license-MIT-green)](./LICENSE)
 
-> 🎯 Projeto interno da CIA Canavieira para modernizar o processo de **apontamento de produção em campo**.  
-> Sistema leve, funcional e estruturado com PHP puro + MySQL, pronto para expansão com Laravel.
+> 🎯 Projeto interno do CIA - UST para modernizar o processo de **apontamento de produção em campo**.  
+> Projeto em transição: anteriormente desenvolvido em Python/Flask, agora migrado para PHP + MySQL, com foco em performance, escalabilidade e melhores práticas.
 
 ---
 
@@ -34,11 +34,12 @@ README.md # Este arquivo
 
 ## ⚙️ Funcionalidades
 
-✔️ Login e logout com controle de sessão  
-✔️ Painel de administração com CRUD para:
-- Usuários (`admin`, `coordenador`, `operador`)
-- Frentes de trabalho
-- Equipamentos e implementos  
+✔️ Login e logout com controle de sessão PHP
+✔️ Painel de administração para cadastro de:
+  - Usuários (Admin, Coordenador, Operador)
+  - Frentes de trabalho
+  - Equipamentos
+  - Implementos
 ✔️ Registro de produção diária  
 ✔️ Controle de permissões por nível de usuário  
 ✔️ Estrutura tipo MVC (sem framework)
