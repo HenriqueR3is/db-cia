@@ -1,6 +1,6 @@
 <?php
 session_start();
-require 'db/conexao.php';
+require_once __DIR__ . '/../../../config/db/conexao.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $report_time = $_POST['report_time'];
@@ -10,18 +10,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $hectares = $_POST['hectares'] ?? 0;
     $reason = $_POST['reason'] ?? null;
 
-    // Busca os IDs corretos
-    $unidade_id = $pdo->query("SELECT id FROM unidades WHERE nome = '$farm'")->fetch_assoc()['id'];
-    $frente_id = $pdo->query("SELECT id FROM frentes WHERE unidade_id = $unidade_id LIMIT 1")->fetch_assoc()['id'];
-    $equipamento_id = $pdo->query("SELECT id FROM equipamentos WHERE nome = '$equipment'")->fetch_assoc()['id'];
-    $implemento_id = 1; // Você pode adicionar um campo no form para escolher implemento
+    // Busca os IDs com segurança
+    $stmt = $pdo->prepare("SELECT id FROM unidades WHERE nome = :farm");
+    $stmt->execute(['farm' => $farm]);
+    $unidade_id = $stmt->fetchColumn();
 
-    $stmt = $pdo->prepare("INSERT INTO producoes (desc_operacao, unidade_id, frente_id, equipamento_id, implemento_id, producao, data_hora) VALUES (?, ?, ?, ?, ?, ?, ?)");
-    $operacao = ($status === 'parado') ? 'vinhaca_localizada' : 'plantio'; // ajuste conforme necessário
+    $stmt = $pdo->prepare("SELECT id FROM frentes WHERE unidade_id = :uid LIMIT 1");
+    $stmt->execute(['uid' => $unidade_id]);
+    $frente_id = $stmt->fetchColumn();
+
+    $stmt = $pdo->prepare("SELECT id FROM equipamentos WHERE nome = :equip");
+    $stmt->execute(['equip' => $equipment]);
+    $equipamento_id = $stmt->fetchColumn();
+
+    $implemento_id = 1; // fixo por enquanto
+
+    $stmt = $pdo->prepare("INSERT INTO producoes 
+        (desc_operacao, unidade_id, frente_id, equipamento_id, implemento_id, producao, data_hora) 
+        VALUES (:desc, :uid, :fid, :eid, :iid, :prod, :dh)");
+    
+    $operacao = ($status === 'parado') ? 'vinhaca_localizada' : 'plantio';
     $data_hora = date('Y-m-d') . ' ' . $report_time;
-    $stmt->bind_param("siiiids", $operacao, $unidade_id, $frente_id, $equipamento_id, $implemento_id, $hectares, $data_hora);
-    $stmt->execute();
 
-    header("Location: dashboard.php");
+    $stmt->execute([
+        'desc' => $operacao,
+        'uid' => $unidade_id,
+        'fid' => $frente_id,
+        'eid' => $equipamento_id,
+        'iid' => $implemento_id,
+        'prod' => $hectares,
+        'dh' => $data_hora
+    ]);
+
+    header("Location: /app/views/user/dashboard.php");
+ // Ou: $_SESSION['is_admin'] ? 'admin_dashboard.php' : 'operator_dashboard.php'
     exit();
 }

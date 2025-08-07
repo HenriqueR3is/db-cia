@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Agro-Dash Admin</title>
-    <link rel="stylesheet" href="static/css/style.css">
+    <link rel="stylesheet" href="/public/static/css/style.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
@@ -15,7 +15,7 @@
         <div class="logo">Agro-Dash Admin</div>
         <div class="user-info">
             <span>Olá, <?php echo htmlspecialchars($_SESSION['usuario_nome']); ?></span>
-                <a href="logout.php" class="logout-btn">
+                <a href="/app/views/login.php" class="logout-btn">
                     <i class="fas fa-sign-out-alt"></i>
                 </a>
 

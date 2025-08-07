@@ -1,11 +1,12 @@
 <?php
 session_start();
-require 'db/conexao.php'; // Certifique-se de que este arquivo retorna uma instância de PDO
+require_once(__DIR__ . '/../../../config/db/conexao.php');
+ // Certifique-se de que este arquivo retorna uma instância de PDO
 if (!isset($_SESSION['usuario_id']) || $_SESSION['usuario_tipo'] !== 'admin') {
-    header("Location: login.php");
+    header("Location: /app/views/login.php");
     exit();
 }
-require 'includes/header.php';
+require_once __DIR__ . '/../../../app/includes/header.php';
 
 // Coletar dados para o dashboard
 $date_filter = $_GET['date'] ?? date('Y-m-d');
@@ -116,4 +117,4 @@ $apontamentos = $stmt_apontamentos->fetchAll(PDO::FETCH_ASSOC);
     });
 </script>
 
-<?php require 'includes/footer.php'; ?>
+<?php require_once __DIR__ . '/../../../app/includes/footer.php'; ?>

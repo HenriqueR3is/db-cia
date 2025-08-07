@@ -1,6 +1,6 @@
 <?php
 session_start();
-require 'db/conexao.php';
+require_once __DIR__ . '/../../config/db/conexao.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST['username'];
@@ -18,9 +18,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['usuario_tipo'] = $usuario['tipo'];
 
             if ($usuario['tipo'] === 'admin') {
-                header("Location: admin_dashboard.php");
+                header("Location: /app/views/admin/admin_dashboard.php");
             } else {
-                header("Location: dashboard.php");
+                header("Location: /app/views/user/dashboard.php");
             }
             exit;
         } else {
@@ -38,7 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Acompanhamento Agrícola</title>
-    <link rel="stylesheet" href="static/css/styleLogin.css">
+    <link rel="stylesheet" href="/public/static/css/styleLogin.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 <body class="login-body">

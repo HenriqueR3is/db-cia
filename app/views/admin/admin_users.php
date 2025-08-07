@@ -1,10 +1,10 @@
 <?php
 session_start();
-require 'db/conexao.php';
+require_once __DIR__ . '/../../../config/db/conexao.php';
 
 // Verificação de administrador
 if (!isset($_SESSION['usuario_id']) || strtolower($_SESSION['usuario_tipo']) !== 'admin') {
-    header("Location: login.php");
+    header("Location: /app/views/login.php");
     exit();
 }
 
@@ -83,12 +83,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_SESSION['success_message'] = "Usuário excluído com sucesso!";
         }
         
-        header("Location: admin_users.php");
+        header("Location: /app/views/admin/admin_users.php");
         exit();
         
     } catch (PDOException $e) {
         $_SESSION['error_message'] = "Erro no banco de dados: " . $e->getMessage();
-        header("Location: admin_users.php");
+        header("Location: /app/views/admin/admin_users.php");
         exit();
     }
 }
@@ -102,7 +102,7 @@ try {
     die("Erro ao consultar dados: " . $e->getMessage());
 }
 
-require 'includes/header.php';
+require_once __DIR__ . '/../../../app/includes/header.php';
 ?>
 
 <!DOCTYPE html>
@@ -723,13 +723,13 @@ require 'includes/header.php';
                     const simulatedData = {
                         user: {
                             id: userId,
-                            nome: 'Usuário de Exemplo',
-                            email: 'exemplo@email.com',
-                            tipo: 'operador',
+                            nome: '',
+                            email: '',
+                            tipo: '',
                             ativo: 1
                         },
-                        unidades: [1, 3], // IDs das unidades permitidas
-                        operacoes: [2]    // IDs das operações permitidas
+                        unidades: [], // IDs das unidades permitidas
+                        operacoes: []    // IDs das operações permitidas
                     };
                     
                     // Preencher o formulário com os dados

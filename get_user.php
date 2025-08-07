@@ -1,6 +1,6 @@
 <?php
 session_start();
-require 'db/conexao.php';
+require_once __DIR__ . '/../../../config/db/conexao.php';
 
 // Verificar se o usuário é admin
 if (!isset($_SESSION['usuario_id']) || strtolower($_SESSION['usuario_tipo']) !== 'admin') {
