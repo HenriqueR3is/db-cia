@@ -1,94 +1,102 @@
-# 📋 Sistema de Apontamento de Produção - Backend PHP
+# 🚜 Sistema de Apontamento de Produção - Backend em PHP + MySQL
 
-Este projeto é um sistema de backend em PHP com banco de dados MySQL, desenvolvido para centralizar e automatizar o processo de apontamento de produção no campo.
+[![Status](https://img.shields.io/badge/status-em%20desenvolvimento-yellow)](https://github.com/seu-usuario/db-cia)
+[![Feito com PHP](https://img.shields.io/badge/PHP-8.x-blue?logo=php)](https://www.php.net/)
+[![MySQL](https://img.shields.io/badge/MySQL-5.7+-blue?logo=mysql)](https://www.mysql.com/)
+[![License](https://img.shields.io/badge/license-MIT-green)](./LICENSE)
 
-> Projeto em transição: anteriormente desenvolvido em Python/Flask, agora migrado para PHP + MySQL, com foco em performance, escalabilidade e melhores práticas.
+> 🎯 Projeto interno da CIA Canavieira para modernizar o processo de **apontamento de produção em campo**.  
+> Sistema leve, funcional e estruturado com PHP puro + MySQL, pronto para expansão com Laravel.
 
 ---
 
-## 📁 Estrutura de Pastas
+## 🗂️ Organização de Pastas
+
 /app
-├── /config # Arquivo de conexão com o banco de dados
-├── /controllers # Lógica de controle (CRUD, autenticação, etc)
-├── /models # Funções de acesso e manipulação do banco
-├── /views # Telas do sistema (login, dashboard, admin, etc)
+├── /config # Conexão com o banco de dados
+├── /controllers # Lógica (CRUD, login, validações)
+├── /models # Funções que interagem com o banco
+├── /views # Telas (Login, Admin, Produção)
 
 /public
 ├── /css # Estilos personalizados
-├── /js # Scripts JS se necessário
-├── index.php # Arquivo inicial do sistema
+├── /js # Scripts JS (se houver)
+├── index.php # Ponto de entrada do sistema
 
 /routes
-├── web.php # Arquivo com rotas do sistema (emulação de rotas estilo Laravel)
+├── web.php # Simulação de rotas tipo Laravel
 
+.env.example # Exemplo de configuração
 README.md # Este arquivo
-.env.example # Exemplo de configuração do ambiente
+
 
 ---
 
 ## ⚙️ Funcionalidades
 
-- Login e logout com sessão PHP
-- Painel de administração para cadastro de:
-  - Usuários (Admin, Coordenador, Operador)
-  - Frentes de trabalho
-  - Equipamentos
-  - Implementos
-- Apontamento de produção diário
-- Controle de permissões por tipo de usuário
-- Organização em MVC simples com PHP puro
+✔️ Login e logout com controle de sessão  
+✔️ Painel de administração com CRUD para:
+- Usuários (`admin`, `coordenador`, `operador`)
+- Frentes de trabalho
+- Equipamentos e implementos  
+✔️ Registro de produção diária  
+✔️ Controle de permissões por nível de usuário  
+✔️ Estrutura tipo MVC (sem framework)
 
 ---
 
-## 🚀 Como Rodar Localmente
+## 🧪 Como Rodar Localmente
 
 ### 1. Pré-requisitos
 
-- PHP 8.x+
-- MySQL 5.7+ ou superior
-- [XAMPP](https://www.apachefriends.org/) ou similar
-- Composer (opcional, se quiser evoluir para Laravel)
+- ✅ PHP 8.x ou superior  
+- ✅ MySQL 5.7+  
+- ✅ XAMPP, WAMP ou similar  
+- (🔄 Opcional) Composer se quiser futuramente usar Laravel
 
-### 2. Clone o projeto
+### 2. Clonando o projeto
 
 ```bash
 git clone https://github.com/seu-usuario/db-cia.git
 cd db-cia
 
-3. Configure o banco de dados
+3. Configurando o banco de dados
+Importe o arquivo .sql com a estrutura do banco
 
-Importe o arquivo database.sql (ou o script de criação de tabelas)
-Atualize os dados de conexão no arquivo:
+Edite o arquivo:
+
 /app/config/db.php
 
 Exemplo:
 $host = 'localhost';
-$dbname = 'nome_do_banco';
+$dbname = 'sua_base';
 $user = 'root';
 $pass = '';
 
-4. Suba o servidor
-Se estiver usando XAMPP, coloque o projeto em:
+4. Iniciando com XAMPP
+
+Coloque a pasta do projeto dentro de htdocs:
 C:\xampp\htdocs\db-cia
 
-E acesse no navegador:
+Abra o navegador e acesse:
 http://localhost/db-cia/public/index.php
 
-🔐 Tipos de Usuário
-Tipo	Permissões
-admin	Acesso total (CRUD completo)
-coordenador	Cadastro de produção e equipamentos
-operador	Apenas preenchimento de produção
+| Tipo          | Acesso                                     |
+| ------------- | ------------------------------------------ |
+| `admin`       | Acesso total (CRUD + controle de usuários) |
+| `coordenador` | Registro de produção, equipamentos etc     |
+| `operador`    | Apenas preenchimento de produção           |
 
-🛠️ Em breve...
-API RESTful
-Dashboard com gráficos
-Versão mobile/responsiva
-Migração para Laravel
+📌 Próximos Passos
+ Autenticação com tokens (JWT ou sessões mais seguras)
+ Dashboard com relatórios e gráficos
+ API RESTful para integração com frontend
+ Migração para Laravel com Blade ou Inertia.js
+ Responsividade para celular
 
-🤝 Contribuição
-Este projeto é de uso interno, mas caso tenha sugestões ou melhorias, sinta-se à vontade para abrir uma issue ou pull request!
+🤝 Contribuindo
+Este é um projeto interno. Mas se tiver sugestões ou quiser contribuir com melhorias, sinta-se à vontade para abrir uma Issue ou Pull Request.
 
-🧑‍💻 Desenvolvido por
+👨‍💻 Desenvolvedores
 Henrique Hiroshi Koshiba Reis && Bruno Carmo Pereira
 Projeto interno do CIA - UST 🚜🌱
