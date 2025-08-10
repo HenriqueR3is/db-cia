@@ -15,7 +15,7 @@
         <div class="logo">Agro-Dash Admin</div>
         <div class="user-info">
             <span>Olá, <?php echo htmlspecialchars($_SESSION['usuario_nome']); ?></span>
-                <a href="/app/views/login.php" class="logout-btn">
+                <a href="/login.php" class="logout-btn">
                     <i class="fas fa-sign-out-alt"></i>
                 </a>
 
@@ -26,10 +26,10 @@
         <div class="sidebar">
             <div class="sidebar-nav">
                 
-                <a href="admin_dashboard.php" class="<?php echo basename($_SERVER['PHP_SELF']) == 'admin_dashboard.php' ? 'active' : ''; ?>">Dashboard</a>
-                <a href="admin_users.php" class="<?php echo basename($_SERVER['PHP_SELF']) == 'admin_users.php' ? 'active' : ''; ?>">Gestão de Usuários</a>
-                <a href="admin_fleet.php" class="<?php echo basename($_SERVER['PHP_SELF']) == 'admin_fleet.php' ? 'active' : ''; ?>">Controle de Frota</a>
-                <a href="admin_farms.php" class="<?php echo basename($_SERVER['PHP_SELF']) == 'admin_farms.php' ? 'active' : ''; ?>">Fazendas e Unidades</a>
+                <a href="admin_dashboard" class="<?php echo basename($_SERVER['PHP_SELF']) == 'admin_dashboard.php' ? 'active' : ''; ?>">Dashboard</a>
+                <a href="admin_users" class="<?php echo basename($_SERVER['PHP_SELF']) == 'admin_users.php' ? 'active' : ''; ?>">Gestão de Usuários</a>
+                <a href="admin_fleet" class="<?php echo basename($_SERVER['PHP_SELF']) == 'admin_fleet.php' ? 'active' : ''; ?>">Controle de Frota</a>
+                <a href="fazendas" class="<?php echo basename($_SERVER['PHP_SELF']) == 'admin_farms.php' ? 'active' : ''; ?>">Fazendas e Unidades</a>
             </div>
         </div>
         <div class="container">

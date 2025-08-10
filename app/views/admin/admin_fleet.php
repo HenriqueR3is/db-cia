@@ -12,3 +12,5 @@ require_once __DIR__ . '/../../../app/includes/header.php';
     <p>Aqui você irá gerenciar equipamentos, implementos, fazendas e unidades, com os respectivos modais de adicionar, editar e excluir.</p>
 </div>
 <?php require_once __DIR__ . '/../../../app/includes/header.php'; ?>
+
+<?php require_once __DIR__ . '/../../../app/includes/footer.php'; ?>

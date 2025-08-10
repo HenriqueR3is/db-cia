@@ -1,0 +1,33 @@
+RewriteEngine On
+RewriteBase /
+
+# Redireciona raiz para login
+RewriteCond %{REQUEST_URI} ^/$
+RewriteRule ^$ app/views/login.php [L]
+
+# URL amigável para dashboard
+RewriteRule ^dashboard$ app/views/user/dashboard.php [L]
+
+# URL amigável para admin_dashboard
+RewriteRule ^admin_dashboard$ app/views/admin/admin_dashboard.php [L]
+
+
+# URL amigável para gestão usuarios
+RewriteRule ^admin_users$ app/views/admin/admin_users.php [L]
+
+# URL amigável para gestão usuarios
+RewriteRule ^admin_fleet$ app/views/admin/admin_fleet.php [L]
+
+
+# URL amigável para gestão usuarios
+RewriteRule ^fazendas$ app/views/admin/admin_farms.php [L]
+
+# URL amigável para gestão usuarios
+RewriteRule ^login$ app/views/login.php [L]
+
+
+
+
+# Permite acesso normal aos arquivos existentes
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d

@@ -4,7 +4,7 @@ require_once __DIR__ . '/../../../config/db/conexao.php';
 
 // Verificação de administrador
 if (!isset($_SESSION['usuario_id']) || strtolower($_SESSION['usuario_tipo']) !== 'admin') {
-    header("Location: /app/views/login.php");
+    header("Location: /login.php");
     exit();
 }
 
@@ -76,12 +76,69 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             
             $_SESSION['success_message'] = "Usuário " . ($action == 'add_user' ? 'adicionado' : 'atualizado') . " com sucesso!";
             
-        } elseif ($action == 'delete_user') {
-            $user_id = filter_input(INPUT_POST, 'user_id', FILTER_VALIDATE_INT);
-            $stmt = $pdo->prepare("DELETE FROM usuarios WHERE id = :id");
-            $stmt->execute([':id' => $user_id]);
-            $_SESSION['success_message'] = "Usuário excluído com sucesso!";
+// substituir apenas o bloco delete_user dentro do try principal
+} elseif ($action == 'delete_user') {
+    $user_id = filter_input(INPUT_POST, 'user_id', FILTER_VALIDATE_INT);
+    if (!$user_id) {
+        $_SESSION['error_message'] = "ID de usuário inválido.";
+        header("Location: /app/views/admin/admin_users.php");
+        exit();
+    }
+
+    // detecta se é requisição AJAX (útil se for usar fetch para deletar)
+    $isAjax = !empty($_SERVER['HTTP_X_REQUESTED_WITH']) &&
+              strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest';
+
+    try {
+        // garante que o PDO lance exceções (deveria estar em conexao.php)
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+        $pdo->beginTransaction();
+
+        // 1) Apagar permissões/filhos primeiro
+        $stmt = $pdo->prepare("DELETE FROM usuario_unidade WHERE usuario_id = :id");
+        $stmt->execute([':id' => $user_id]);
+
+        $stmt = $pdo->prepare("DELETE FROM usuario_operacao WHERE usuario_id = :id");
+        $stmt->execute([':id' => $user_id]);
+
+        // 2) Apagar o usuário
+        $stmt = $pdo->prepare("DELETE FROM usuarios WHERE id = :id");
+        $stmt->execute([':id' => $user_id]);
+
+        // checar se alguma linha foi removida (opcional)
+        if ($stmt->rowCount() === 0) {
+            throw new Exception("Usuário não encontrado ou já removido.");
         }
+
+        $pdo->commit();
+
+        if ($isAjax) {
+            header('Content-Type: application/json');
+            echo json_encode(['success' => true, 'message' => 'Usuário excluído com sucesso.']);
+            exit();
+        }
+
+        $_SESSION['success_message'] = "Usuário excluído com sucesso!";
+    } catch (Exception $e) {
+        // desfaz se algo deu errado
+        if ($pdo->inTransaction()) $pdo->rollBack();
+
+        if ($isAjax) {
+            header('Content-Type: application/json');
+            http_response_code(500);
+            echo json_encode(['success' => false, 'error' => $e->getMessage()]);
+            exit();
+        }
+
+        // em produção você pode querer logar $e->getMessage() em log ao invés de mostrar
+        $_SESSION['error_message'] = "Erro ao excluir usuário: " . $e->getMessage();
+    }
+
+    header("Location: /app/views/admin/admin_users.php");
+    exit();
+}
+
         
         header("Location: /app/views/admin/admin_users.php");
         exit();
@@ -138,10 +195,13 @@ require_once __DIR__ . '/../../../app/includes/header.php';
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg);
-            color: var(--text);
-            line-height: 1.6;
+font-family: 'Poppins', sans-serif;
+    background-color: var(--bg-light);
+    color: var(--text-color);
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
         }
 
         .admin-container {
@@ -500,6 +560,10 @@ require_once __DIR__ . '/../../../app/includes/header.php';
                 padding: 0.5rem;
             }
         }
+
+
+
+        
         
     </style>
 </head>
@@ -712,54 +776,80 @@ require_once __DIR__ . '/../../../app/includes/header.php';
             openModal(userModal);
         });
         
-        document.querySelectorAll('.edit-user').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const userId = this.getAttribute('data-id');
-                
-                // Simulação de requisição AJAX - substitua por chamada real ao seu endpoint
-                // Esta é uma simulação para demonstração
-                setTimeout(() => {
-                    // Dados simulados - na implementação real, você faria uma requisição AJAX
-                    const simulatedData = {
-                        user: {
-                            id: userId,
-                            nome: '',
-                            email: '',
-                            tipo: '',
-                            ativo: 1
-                        },
-                        unidades: [], // IDs das unidades permitidas
-                        operacoes: []    // IDs das operações permitidas
-                    };
-                    
-                    // Preencher o formulário com os dados
-                    document.getElementById('modalTitle').textContent = 'Editar Usuário';
-                    document.getElementById('formAction').value = 'edit_user';
-                    document.getElementById('userId').value = simulatedData.user.id;
-                    document.getElementById('nome').value = simulatedData.user.nome;
-                    document.getElementById('email').value = simulatedData.user.email;
-                    document.getElementById('tipo').value = simulatedData.user.tipo;
-                    document.getElementById('ativo').checked = simulatedData.user.ativo == 1;
-                    
-                    // Resetar checkboxes
-                    document.querySelectorAll('input[name="unidades[]"]').forEach(cb => cb.checked = false);
-                    document.querySelectorAll('input[name="operacoes[]"]').forEach(cb => cb.checked = false);
-                    
-                    // Marcar permissões
-                    simulatedData.unidades.forEach(unidadeId => {
-                        const checkbox = document.querySelector(`input[name="unidades[]"][value="${unidadeId}"]`);
-                        if (checkbox) checkbox.checked = true;
-                    });
-                    
-                    simulatedData.operacoes.forEach(operacaoId => {
-                        const checkbox = document.querySelector(`input[name="operacoes[]"][value="${operacaoId}"]`);
-                        if (checkbox) checkbox.checked = true;
-                    });
-                    
-                    openModal(userModal);
-                }, 300);
+document.querySelectorAll('.edit-user').forEach(btn => {
+    btn.addEventListener('click', function() {
+        const userId = this.getAttribute('data-id');
+
+        fetch(`/app/views/admin/get_user.php?id=${userId}`)
+            .then(res => res.json())
+            .then(data => {
+                if (data.error) {
+                    alert(data.error);
+                    return;
+                }
+
+                // Preencher campos
+                document.getElementById('modalTitle').textContent = 'Editar Usuário';
+                document.getElementById('formAction').value = 'edit_user';
+                document.getElementById('userId').value = data.user.id;
+                document.getElementById('nome').value = data.user.nome;
+                document.getElementById('email').value = data.user.email;
+                document.getElementById('tipo').value = data.user.tipo;
+                document.getElementById('ativo').checked = data.user.ativo == 1;
+
+                // Resetar checkboxes
+                document.querySelectorAll('input[name="unidades[]"]').forEach(cb => {
+                    cb.checked = data.unidades.includes(cb.value);
+                });
+                document.querySelectorAll('input[name="operacoes[]"]').forEach(cb => {
+                    cb.checked = data.operacoes.includes(cb.value);
+                });
+
+                openModal(userModal);
+            })
+            .catch(err => {
+                alert("Erro ao buscar dados do usuário");
+                console.error(err);
             });
-        });
+    });
+});
+
+
+document.getElementById('userForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const formData = new FormData(this);
+
+    fetch(location.href, {
+        method: 'POST',
+        body: formData
+    })
+    .then(res => res.text())
+    .then(() => {
+        closeModal(userModal);
+
+        // Exibir notificação
+        const msg = document.createElement('div');
+        msg.className = 'alert alert-success';
+        msg.innerHTML = 'Usuário salvo com sucesso! <button class="alert-close">&times;</button>';
+        document.querySelector('.card-body').prepend(msg);
+
+        // Fechar automaticamente
+        setTimeout(() => msg.remove(), 4000);
+
+        // Atualizar tabela sem reload
+        location.reload();
+    })
+    .catch(err => {
+        closeModal(userModal);
+        const msg = document.createElement('div');
+        msg.className = 'alert alert-danger';
+        msg.innerHTML = 'Erro ao salvar usuário! <button class="alert-close">&times;</button>';
+        document.querySelector('.card-body').prepend(msg);
+        console.error(err);
+    });
+});
+
         
         document.querySelectorAll('.delete-user').forEach(btn => {
             btn.addEventListener('click', function() {

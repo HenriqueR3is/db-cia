@@ -73,7 +73,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 1rem;
+    padding: 0 1.5rem;
     position: sticky;
     top: 0;
     z-index: 1000;
@@ -100,19 +100,24 @@ body {
 
 .user-info span {
     font-weight: 500;
-    font-size: 0.9rem;
+    font-size: 1.2rem;
+    text-transform: capitalize;
 }
 
 .user-info a {
     color: var(--secondary-color);
     font-weight: 500;
-    font-size: 0.85rem;
+    font-size: 1.25rem;
     display: flex;
     align-items: center;
     gap: 6px;
     padding: 6px 12px;
     border-radius: 50px;
 }
+
+
+
+
 
 /*==============================
   Sidebar
@@ -543,3 +548,13 @@ text-decoration: none;
 .sidebar-nav a:hover::before {
     transform: scaleY(1);
 }
+
+a {
+    text-decoration: none;
+    color: var(--secondary-color);
+}
+
+a:hover {
+    color: var(--secondary-color-dark);
+}
+

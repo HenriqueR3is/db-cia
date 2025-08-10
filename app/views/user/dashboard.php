@@ -11,7 +11,8 @@ if (!isset($_SESSION['usuario_id'])) {
 $equipamentos = $pdo->query("SELECT nome FROM equipamentos")->fetchAll(PDO::FETCH_ASSOC);
 $unidades = $pdo->query("SELECT nome FROM unidades")->fetchAll(PDO::FETCH_ASSOC);
 
-$report_hours = ['06:00', '12:00', '18:00'];
+// 1. Horas pares para o apontamento
+$report_hours = ['06:00', '08:00', '10:00', '12:00', '14:00', '16:00', '18:00', '20:00', '22:00', '00:00', '02:00', '04:00'];
 $farm_list = array_column($unidades, 'nome');
 $equipment_list = array_column($equipamentos, 'nome');
 
@@ -24,7 +25,7 @@ $user_role = $_SESSION['usuario_tipo'];
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - <?php echo $user_role; ?></title>
-    <link rel="stylesheet" href="/public/static/css/styleLogin.css">
+    <link rel="stylesheet" href="/public/static/css/styleDash.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
